@@ -13,6 +13,19 @@ Un solo código para Android e iPhone, y Dart trae sockets UDP con broadcast de
 serie (`RawDatagramSocket`), así que no hace falta ningún módulo nativo extra.
 Con React Native habría que añadir un módulo UDP nativo y no funcionaría en Expo Go.
 
+## Versión web (PWA) para iPhone y Android
+
+Además de la app Flutter hay una **PWA** que se instala desde el navegador, sin
+Mac ni tiendas, y funciona también fuera de casa. Como un navegador no puede
+enviar el paquete mágico, la PWA se lo pide a un **relay** en casa (hoy un
+Android viejo con Termux, mañana una Raspberry Pi), con un token y a través de
+Tailscale. Guía completa: [docs/pwa-y-relay.md](docs/pwa-y-relay.md).
+
+```
+pwa/     la PWA (HTML/CSS/JS, sin compilar); se publica en GitHub Pages
+relay/   el relay en Python sin dependencias (Termux, Raspberry Pi, cualquier Linux)
+```
+
 ## Antes de empezar: prepara el PC
 
 Sigue [docs/configurar-pc.md](docs/configurar-pc.md): activar Wake on LAN en la
@@ -79,4 +92,11 @@ lib/
   services/wake_service.dart    envío por UDP (WakeTransport)
   services/device_store.dart    guardado en el teléfono
   screens/                      lista de equipos y formulario
+```
+
+Relay y PWA:
+
+```bash
+python3 -m unittest relay/test_wol_relay.py
+python3 relay/wol_relay.py      # sirve también la PWA en http://localhost:8787
 ```

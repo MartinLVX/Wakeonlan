@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Encender PC</title>
+  <meta name="description" content="Enciende tu computadora con Wake on LAN a través del relay de casa.">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Encender PC">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Encender PC</h1>
+    <button id="settings-btn" class="icon-btn" aria-label="Ajustes" title="Ajustes">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section id="devices-view" hidden>
+      <ul id="devices" class="devices"></ul>
+      <p id="empty" class="muted" hidden>El relay no tiene equipos configurados. Añádelos en su <code>config.json</code>.</p>
+    </section>
+
+    <section id="settings-view" hidden>
+      <h2>Conectar con el relay</h2>
+      <p class="muted">El relay es el equipo de casa (el Android o la Raspberry Pi) que envía el paquete mágico.</p>
+
+      <form id="settings-form" autocomplete="off">
+        <label>Enlace de configuración
+          <input id="link-input" type="url" inputmode="url" placeholder="Pega aquí el enlace que muestra el relay">
+        </label>
+        <p class="muted small">O rellena los dos campos a mano:</p>
+        <label>Dirección del relay
+          <input id="relay-input" type="url" inputmode="url" placeholder="http://100.x.y.z:8787" required>
+        </label>
+        <label>Token
+          <input id="token-input" type="password" placeholder="El token de config.json" required>
+        </label>
+        <div class="row">
+          <button type="submit" class="primary">Guardar y probar</button>
+          <button type="button" id="cancel-btn" class="ghost">Cancelar</button>
+        </div>
+      </form>
+      <p class="muted small">Los datos se guardan solo en este teléfono.</p>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <template id="device-tpl">
+    <li class="device">
+      <div class="device-info">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <div class="name"></div>
+          <div class="state muted small"></div>
+        </div>
+      </div>
+      <button class="power" aria-label="Encender">
+        <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M12 3v8M6.3 6.8a8 8 0 1 0 11.4 0"/></svg>
+      </button>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
