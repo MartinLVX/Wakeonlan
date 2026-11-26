@@ -1,0 +1,22 @@
+# Servicio para Raspberry Pi (o cualquier Linux con systemd).
+# Instalar:
+#   sudo cp wol-relay.service /etc/systemd/system/
+#   sudo systemctl enable --now wol-relay
+# Ajusta User y las rutas si tu usuario no es "pi".
+[Unit]
+Description=Relay de Wake on LAN
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/Wakeonlan/relay
+ExecStart=/usr/bin/python3 /home/pi/Wakeonlan/relay/wol_relay.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/home/pi/Wakeonlan/relay
+
+[Install]
+WantedBy=multi-user.target
